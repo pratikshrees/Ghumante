@@ -1,0 +1,42 @@
+{%load static%}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Map info</title>
+  <link rel="stylesheet" href="{% static "map.css" %}" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.8.0/dist/leaflet.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+
+<body>
+  <div id="left-panel">
+    <div id="search-box">
+      <input type="text" id="from" class="input-field" placeholder="Starting location" autocomplete="off">
+      <input type="text" id="to" class="input-field" placeholder="Destination" autocomplete="off">
+      <button id="find-route">Find Route</button>
+    </div>
+    <div id="route-info"></div>
+  </div>
+  <div id="map-container">
+    <div id="map"></div>
+  </div>
+<div class="image-container">
+<div class="img1">
+  <div class="b1"></div>
+  <h3>Deluxe Bus</h3>
+  <button class="but">Book Now</button>
+</div>
+<div class="img2">
+  <div class="b2"></div>
+  <h3>Black Jepe</h3>
+  <button class="but">Book Now</button>
+</div>
+</div>
+  <script src="https://unpkg.com/leaflet@1.8.0/dist/leaflet.js"></script>
+  <script src="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.js"></script>
+  <script src="{% static "map.js" %}"></script>
+</body>
+
+</html>

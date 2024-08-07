@@ -1,0 +1,142 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trekking Routes | Trekking Guide</title>
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+</head>
+<body>
+    <header>
+        <div class="logo">
+          <h2 style="color: white;"><span>G</span>humante</h2>
+        </div>
+        <a href="{%url 'index'%}">Home</a>
+        <a href="{%url 'routes'%}">Treking Routes</a>
+        <a href="#">Community</a>
+        <a href="{%url 'shop'%}">Shop</a>
+        <a href="{%url 'profile'%}">Profile<i class="fa-solid fa-user"></i></a>
+        <div class="gh"><a href="{% url 'logout' %}"><button class="login">logout</button></a></div>
+      </header>
+    <main>
+        <div class="filter-container">
+            <label for="difficulty">Difficulty:</label>
+            <select id="difficulty">
+                <option value="all">All</option>
+                <option value="easy">Easy</option>
+                <option value="moderate">Moderate</option>
+                <option value="hard">Hard</option>
+            </select>
+        </div>
+        <div class="routes-container" id="routes-container">
+            <!-- Trekking routes will be dynamically inserted here -->
+        </div>
+    </main>
+    <footer>
+        <p>&copy; 2024 Trekking Guide. All rights reserved.</p>
+    </footer>
+  
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const routes = [
+            {
+                name: "Everest Base Camp",
+                difficulty: "hard",
+                duration: "14 days",
+                image: "{% static 'everest.jpg' %}",
+                description: "A challenging trek to the base of the world's highest mountain.",
+            },
+            {
+                name: "Annapurna Base Camp",
+                difficulty: "hard",
+                duration: "14 days",
+                image: "{% static 'abc.jpg' %}",
+                description: "A challenging trek to the base of the world's highest mountain.",
+                url: "{% url 'abc' %}"
+            },
+            {
+                name: "Mardi Himal",
+                difficulty: "moderate",
+                duration: "5 days",
+                image: "{% static 'mardi.jpg' %}",
+                description: "A scenic trek with stunning mountain views.",
+            },
+            {
+                name: "Poon Hill",
+                difficulty: "easy",
+                duration: "3 days",
+                image: "{% static 'poonhill.jpg' %}",
+                description: "A relatively easy trek with beautiful sunrise views.",
+            }
+        ];
+
+        const routesContainer = document.getElementById('routes-container');
+        const difficultySelect = document.getElementById('difficulty');
+        
+        const displayRoutes = (filteredRoutes) => {
+            routesContainer.innerHTML = '';
+            filteredRoutes.forEach(route => {
+                const routeCard = document.createElement('div');
+                routeCard.classList.add('route-card');
+                routeCard.innerHTML = `
+                    <img src="${route.image}" alt="${route.name}">
+                    <div class="route-card-content">
+                        <h3>${route.name}</h3>
+                        <p>${route.description}</p>
+                        <a href="${route.url}" class="details">View Details</a>
+                    </div>
+                `;
+                routesContainer.appendChild(routeCard);
+            });
+        };
+
+        difficultySelect.addEventListener('change', (e) => {
+            const selectedDifficulty = e.target.value;
+            const filteredRoutes = selectedDifficulty === 'all' ? routes : routes.filter(route => route.difficulty === selectedDifficulty);
+            displayRoutes(filteredRoutes);
+        });
+
+        displayRoutes(routes);
+    });
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const findBuddyForm = document.getElementById('find-buddy-form');
+        const buddyResults = document.getElementById('buddy-results');
+
+        findBuddyForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            const trek = document.getElementById('trek').value;
+            const date = document.getElementById('date').value;
+
+            const buddies = [
+                { name: 'John Doe', trek: 'everest', date: '2024-08-15', contact: 'johndoe@example.com' },
+                { name: 'Jane Smith', trek: 'annapurna', date: '2024-09-01', contact: 'janesmith@example.com' },
+                { name: 'Mike Johnson', trek: 'langtang', date: '2024-10-10', contact: 'mikejohnson@example.com' }
+            ];
+
+            const filteredBuddies = buddies.filter(buddy => buddy.trek === trek && buddy.date === date);
+
+            buddyResults.innerHTML = '';
+            if (filteredBuddies.length > 0) {
+                filteredBuddies.forEach(buddy => {
+                    const buddyCard = document.createElement('div');
+                    buddyCard.classList.add('buddy-card');
+                    buddyCard.innerHTML = `
+                        <h4>${buddy.name}</h4>
+                        <p>Trek: ${buddy.trek}</p>
+                        <p>Date: ${buddy.date}</p>
+                        <p>Contact: <a href="mailto:${buddy.contact}" class="connect">${buddy.contact}</a></p>
+                    `;
+                    buddyResults.appendChild(buddyCard);
+                });
+            } else {
+                buddyResults.innerHTML = '<p>No buddies found for the selected trek and date.</p>';
+            }
+        });
+    });
+    </script>
+</body>
+</html>
